@@ -32,6 +32,12 @@ Real recommenders like Spotify mostly work two ways: collaborative filtering (wh
 
 Genre is weighted highest, so it'll probably dominate — a song with your genre but wrong mood may still outrank a perfect mood/energy match in another genre.
 
+**Example user profile:**
+```
+{"favorite_genre": "rock", "favorite_mood": "intense", "target_energy": 0.9, "likes_acoustic": False}
+```
+This is specific enough to separate "intense rock" from "chill lofi" (genre, mood, and energy all point opposite ways) but two rock subgenres with the same mood/energy would score identically — the profile can't tell them apart.
+
 ---
 
 ## Getting Started
