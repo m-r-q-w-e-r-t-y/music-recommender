@@ -38,6 +38,8 @@ Genre is weighted highest, so it'll probably dominate — a song with your genre
 ```
 This is specific enough to separate "intense rock" from "chill lofi" (genre, mood, and energy all point opposite ways) but two rock subgenres with the same mood/energy would score identically — the profile can't tell them apart.
 
+Scoring and ranking are two separate jobs: `score_song` judges one song in isolation, `recommend_songs` runs that judge over every song and sorts the results — you need both because a score alone isn't a recommendation until it's compared against everything else.
+
 ---
 
 ## Getting Started
