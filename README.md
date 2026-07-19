@@ -179,10 +179,9 @@ Read and complete `model_card.md`:
 
 [**Model Card**](model_card.md)
 
-Write 1 to 2 paragraphs here about what you learned:
+Building this made it clear that a "recommendation" is really just a score plus a sort — there's no magic in it, just a formula that decides which attributes matter and by how much. That also makes it obvious where bias creeps in: the recipe here weights genre heavily, so it quietly favors users whose taste lines up with the genres that happen to have more songs in the catalog, and it can't tell "close enough" from "no match at all" since genre and mood are exact-match strings.
 
-- about how recommenders turn data into predictions
-- about where bias or unfairness could show up in systems like this
+See `model_card.md` for the full write-up, including the weight-shift experiment and personal reflection.
 
 
 
