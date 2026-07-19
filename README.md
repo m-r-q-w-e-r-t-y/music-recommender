@@ -17,17 +17,20 @@ Replace this paragraph with your own summary of what your version does.
 
 ## How The System Works
 
-Explain your design in plain language.
+Real recommenders like Spotify mostly work two ways: collaborative filtering (what similar users liked) and content-based filtering (matching a song's own traits to your taste). This project only does the second one — no other users, just song attributes vs. one taste profile.
 
-Some prompts to answer:
+**Features used:** genre, mood, energy, acousticness (from `songs.csv`). Tempo, valence, and danceability are in the data but not scored yet.
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
+**`Song` fields:** id, title, artist, genre, mood, energy, tempo_bpm, valence, danceability, acousticness
+**`UserProfile` fields:** favorite_genre, favorite_mood, target_energy, likes_acoustic
 
-You can include a simple diagram or bullet list if helpful.
+**Scoring recipe:**
+- genre match: +2.0
+- mood match: +1.0
+- energy closeness: up to +2.0 (closer to target = more points)
+- acousticness fits `likes_acoustic`: +0.5
+
+Genre is weighted highest, so it'll probably dominate — a song with your genre but wrong mood may still outrank a perfect mood/energy match in another genre.
 
 ---
 
