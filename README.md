@@ -79,11 +79,12 @@ You can add more tests in `tests/test_recommender.py`.
 
 ## Sample Recommendation Output
 
-Default profile: `genre=pop, mood=happy, energy=0.8`
+Three profiles are run in `main.py`: High-Energy Pop, Chill Lofi, and Deep Intense Rock.
 
 ```
 Loaded songs: 25
 
+=== High-Energy Pop ({'genre': 'pop', 'mood': 'happy', 'energy': 0.8}) ===
 Top recommendations:
 
 Sunny Side Up - Score: 5.00
@@ -100,7 +101,47 @@ Because: mood match (+1.0), energy closeness (+1.96)
 
 Rooftop Lights - Score: 2.92
 Because: mood match (+1.0), energy closeness (+1.92)
+
+
+=== Chill Lofi ({'genre': 'lofi', 'mood': 'chill', 'energy': 0.3, 'likes_acoustic': True}) ===
+Top recommendations:
+
+Window Seat - Score: 5.44
+Because: genre match (+2.0), mood match (+1.0), energy closeness (+1.94), acousticness fit (+0.5)
+
+Library Rain - Score: 5.40
+Because: genre match (+2.0), mood match (+1.0), energy closeness (+1.90), acousticness fit (+0.5)
+
+Tea and Vinyl - Score: 5.34
+Because: genre match (+2.0), mood match (+1.0), energy closeness (+1.84), acousticness fit (+0.5)
+
+Midnight Coding - Score: 5.26
+Because: genre match (+2.0), mood match (+1.0), energy closeness (+1.76), acousticness fit (+0.5)
+
+Focus Flow - Score: 4.30
+Because: genre match (+2.0), energy closeness (+1.80), acousticness fit (+0.5)
+
+
+=== Deep Intense Rock ({'genre': 'rock', 'mood': 'intense', 'energy': 0.9}) ===
+Top recommendations:
+
+Overdrive - Score: 5.00
+Because: genre match (+2.0), mood match (+1.0), energy closeness (+2.00)
+
+Storm Runner - Score: 4.98
+Because: genre match (+2.0), mood match (+1.0), energy closeness (+1.98)
+
+Gym Hero - Score: 2.94
+Because: mood match (+1.0), energy closeness (+1.94)
+
+Neon Pulse - Score: 1.90
+Because: energy closeness (+1.90)
+
+Neon Skyline - Score: 1.90
+Because: energy closeness (+1.90)
 ```
+
+**Accuracy check:** the Deep Intense Rock profile "feels" right — the top two are actual rock songs by the same artist (Voltline), and nothing weird sneaks in until 4th/5th place, where high-energy songs from unrelated genres (EDM, k-pop) show up purely on energy closeness since rock only has two songs in the catalog. Gym Hero (pop) keeps appearing near the top of every energetic profile because it's one of the highest-energy songs overall (0.93) — that's a sign genre + energy are doing most of the work and the catalog may not have enough per-genre depth to fully separate tastes.
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
 
@@ -108,11 +149,13 @@ Because: mood match (+1.0), energy closeness (+1.92)
 
 ## Experiments You Tried
 
-Use this section to document the experiments you ran. For example:
+**Weight shift experiment:** temporarily changed genre match from +2.0 to +1.0 and energy closeness from up to +2.0 to up to +4.0, then reran all three profiles.
 
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
+- High-Energy Pop: Golden Hour and Rooftop Lights (indie pop, mood match, no genre match) jumped ahead of Gym Hero (pop genre match, no mood match) — energy + mood together now outweigh a lone genre match.
+- Chill Lofi: top 4 stayed the same lofi songs, but Spacewalk Thoughts (ambient, not lofi) cracked the top 5 purely on energy + acousticness.
+- Deep Intense Rock: Neon Pulse and Neon Skyline (EDM/k-pop, no genre or mood match at all) entered the top 5 just for having high raw energy.
+
+This didn't make the recommendations more accurate — it made them noisier. Genre weighting at 2.0 was doing useful work keeping off-genre songs out of the list; cutting it in half let raw energy override genre in a few cases, which felt less intentional. The change was reverted back to the original weights (genre +2.0, energy up to +2.0) after the experiment.
 
 ---
 
